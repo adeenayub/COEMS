@@ -55,11 +55,6 @@ public class voterController {
 	@Autowired
 	private voterService voterservice;
 	JSGFPLib sgfplib = new JSGFPLib();
-	//private long natCnic=1;
-	//private long proCnic=1;
-	//private voter vot;
-	
-	//long id;
 	
 	@RequestMapping("/index")
 	public String first(final ModelMap model,HttpSession session)
@@ -144,14 +139,10 @@ public class voterController {
 		      if(next=="verifyFinger" || next=="index")
 		      {
 		    	 model.put("votercnic",id);
-		    	// vot=voterservice.getSingleVoter(id);
-		    	//vot=new voter(voter);
-		    	
+		  
 		    	 System.out.println("Voter Cnic: "+id);
 		    	 System.out.println("Voter Adreess: "+voter.getAddress());
-		    	 
-		    	// System.out.println("Vot Cnic: "+vot.getCnic());
-		    	 
+		 
 		    	  return next;
 		      }
 		      
@@ -175,8 +166,7 @@ public class voterController {
 	@RequestMapping(value="/voting.do", method=RequestMethod.POST)
 	public String doActions(@ModelAttribute voter voter,  BindingResult result, @RequestParam String action, Map<String, Object> map){
 		String page="";
-		//System.out.println(action);
-		
+	
 		candidates cand=new candidates();
 		map.put("candidate", cand);
 		switch(action.toLowerCase()){
@@ -203,10 +193,8 @@ public class voterController {
 		 long natCnic;
 		
 		natCnic=candidate.getCcnic();
-		//voterservice.updateVotes(natCnic);
 		map.put("natCnic", natCnic);
-		
-		map.put("done", "Your vote has been casted for National Assembly.");
+	        map.put("done", "Your vote has been casted for National Assembly.");
 		
 		return "proceed";
 	}
@@ -215,72 +203,49 @@ public class voterController {
 	public String CastVoteProvisional(@ModelAttribute provisionalcandidates candidate, BindingResult result, @RequestParam String action, Map<String, Object> map){
 		long proCnic;
 		proCnic=candidate.getCcnic();
-		//System.out.println(cnic);
-		//voterservice.updateProVotes(cnic);
 		map.put("proCnic", proCnic);
-		
-	
 		map.put("done", "Your vote has been casted for Provisional Assembly.");
 		
 		return "proceed";
 	}
 
-	@RequestMapping(value="/votecast.do", method=RequestMethod.POST)
-	//public String CastVotefinal(@ModelAttribute provisionalcandidates candidate,ModelMap model){
-		
+	@RequestMapping(value="/votecast.do", method=RequestMethod.POST)	
 	public String CastVotefinal(HttpSession session, SessionStatus status,ModelMap model){
 	
-		//candidates cand=(candidates) session.getAttribute("natCnic");
-		//provisionalcandidates pro=(provisionalcandidates)session.getAttribute("proCnic");
-		
-		//long natCnic=cand.getCcnic();
-		//long proCnic=pro.getCcnic();
+	
 		long natCnic= (long) session.getAttribute("natCnic");
 		long proCnic= (long) session.getAttribute("proCnic");
-		//System.out.println("natCnic before submission: "+natCnic);
-		//System.out.println("proCnic before submission: "+proCnic);
 		
 		if(natCnic!=0L && proCnic!=0L)
-		//if(cand!=null && pro!=null)
 		{
-			//status.setComplete();
 			voterservice.updateVotes(natCnic);
 			System.out.println("National Candidate: "+natCnic);
-			//System.out.println(proCnic);
 			System.out.println("Provisional Candidate: "+proCnic);
 			
 			voterservice.updateProVotes(proCnic);
-			//voterservice.updateFlag();
 			long id= (long) session.getAttribute("votercnic");
 			voter vo=voterservice.getSingleVoter(id);
 			
 			voterservice.updateFlag(vo);
 			System.out.println("vo cnic: "+vo.getCnic());
-		//	System.out.println("vottttt address: "+vot.getAddress());
 			System.out.println("Flag updated of : " + vo.getCnic());
 			
 			status.setComplete();
-			//natCnic=1;
-			//proCnic=1;
-			
 			return "done";
 		}
 		
 		else if(natCnic==0L && proCnic!=0L)
-		//else if(cand==null && pro!=null)
 		{
 			model.put("notcomplete","Please cast vote for National Assembly");
 			return "proceed";
 		}
 		
 		else if(natCnic!=0L && proCnic==0L)
-		//else if(cand!=null && pro==null)
 		{
 			model.put("notcomplete","Please cast vote for Provisional Assembly");
 			return "proceed";
 		}
 		else if(natCnic==0L && proCnic==0L)
-		//else if(cand==null && pro==null)
 		{
 		
 			model.put("notcomplete","Please cast vote for both National Assembly and Provisional Assembly");
@@ -310,23 +275,16 @@ public class voterController {
 		 }
 		admin admin1=new admin();
 		model.addAttribute("admin1", admin1);
-		//model.put("adminusername", "no");
-		 //adminReq adm=new adminReq();
-		// model.put("admin1",adm);
 		return "login";
 	}
 	
 @RequestMapping(value="/login.do", method=RequestMethod.POST)
 public String Admin(@ModelAttribute admin admin1, BindingResult result,HttpSession session, @RequestParam String action,Map<String, Object> map){
 	
-	admin admin2=new admin();
-	map.put("admin1", admin2);
-	//adminReq adm=new adminReq();
-	// map.put("admin1",adm);
-	 
-		String result1="";
+	        admin admin2=new admin();
+	        map.put("admin1", admin2);
+	        String result1="";
 		result1=voterservice.check(admin1);
-		//result1=voterservice.checkOne(admin1);
 		if(result1=="login")
 		{
 			map.put("loginFailed","Username or Password invalid.");
@@ -355,37 +313,6 @@ public String logout(HttpSession session,SessionStatus status,ModelMap model)
 	return "login";
 
 }
-
-/*@RequestMapping(value="/login.do", method=RequestMethod.GET)
-public String Admin(HttpSession session,Map<String, Object> map){
-	String ad=(String)session.getAttribute("adminusername");
-	 String pg=(String)session.getAttribute("homePage");
-	 if(ad==null)
-	 {
-		 map.put("adminusername", "no");
-		 map.put("homePage","no");
-	 }
-	 
-	 else
-	 {
-		 map.put("adminusername", ad);
-		 map.put("homePage",pg);
-	 }
-	admin admin2=new admin();
-	map.put("admin1", admin2);
-	String one=ad.split("\\.")[1];
-	System.out.println(one);
-	if(one.equals("returning"))
-	
-		return "returningHome";
-	
-	else
-		return "presidingHome";
-			
-	
-	//return result1;
-}*/
-
 
 	@RequestMapping("/add_national")
 	public String add(HttpSession session,ModelMap model)
@@ -421,7 +348,6 @@ public String Admin(HttpSession session,Map<String, Object> map){
 			System.out.println(candid.get(j));
 		}
 		model.addAttribute("constList",candid);
-		//}
 		return "add_national";
 	}
 	
@@ -464,11 +390,7 @@ public String Admin(HttpSession session,Map<String, Object> map){
 		
 		
 		System.out.println("Image: "+cand.getCandidatename());
-		//voterservice.AddNationalCand(cand);
-		
-	//	voterservice.AddNatToVotes(cand.getCcnic());
-		
-		candidates cando=new candidates();
+	        candidates cando=new candidates();
 		map.put("candidate", cando);
 		
 		List<constituency> li=voterservice.getConstituencies();
@@ -825,65 +747,6 @@ public String Admin(HttpSession session,Map<String, Object> map){
 		return "search_national";
 	}
 	
-/*	@RequestMapping(value="/search_national.do", method=RequestMethod.POST)
-	public String SearchCandidate(@ModelAttribute candidates candidate, BindingResult result, @RequestParam String action, Map<String, Object> map){
-		
-		candidates cand1=new candidates();
-		map.put("candidate", cand1);
-		
-		String search="";
-		switch(action.toLowerCase()){
-		case "search by candidate name":
-			search="search_NatCandName";
-			break;
-		case "search by party name":
-			search="search_NatParty";
-			break;
-		case "search by constituency":
-			search="search_NatConst";
-			break;
-		}
-		return search;
-	}
-	
-	@RequestMapping("/search_NatCandName")
-	public String searchNatCandName(ModelMap model)
-	{
-		candidates cand1=new candidates();
-		model.put("candidate", cand1);
-		List<String> messages = Arrays.asList("Candidate Name", "Party Name", "Constituency");
-		model.put("listToSearch", messages);
-		return "search_NatCandName";
-	}
-	
-	
-	@RequestMapping(value="/search_NatCandName.do", method=RequestMethod.POST)
-	public String searchNationalCandName(@ModelAttribute candidates candidate, BindingResult result, @RequestParam String action, Map<String, Object> map){
-	
-		candidates cand1=new candidates();
-		map.put("candidate", cand1);
-		map.put("NatCandName", voterservice.getNatCandName(candidate));
-		return "search_NatCandName";
-	}
-	
-	@RequestMapping("/search_NatParty")
-	public String searchPartyName(ModelMap model)
-	{
-		candidates cand1=new candidates();
-		model.put("candidate", cand1);
-		//List<String> messages = Arrays.asList("Candidate Name", "Party Name", "Constituency");
-		//model.put("listToSearch", messages);
-		return "search_NatParty";
-	}
-	
-	@RequestMapping(value="/search_NatParty.do", method=RequestMethod.POST)
-	public String searchPartyName(@ModelAttribute candidates candidate, BindingResult result, @RequestParam String action, Map<String, Object> map){
-	
-		candidates cand1=new candidates();
-		map.put("candidate", cand1);
-		map.put("NatCandParty", voterservice.getNatParty(candidate));
-		return "search_NatParty";
-	}*/
 	
 	@RequestMapping(value="/search_national.do", method=RequestMethod.POST)
 	public String SearchCandidate1(@ModelAttribute candidates candidate, BindingResult result, @RequestParam String action, Map<String, Object> map){
@@ -899,19 +762,16 @@ public String Admin(HttpSession session,Map<String, Object> map){
 		{
 			
 			map.put("NatSearch", voterservice.getNatCandName(candidate));
-			//return "search_national";
 		}
 		else if(searchfor.equals("Party Name"))
 		{
 			map.put("NatSearch", voterservice.getNatParty(candidate));
-			//return "search_national";
 			
 		}
 		
 		else if(searchfor.equals("Constituency"))
 		{
 			map.put("NatSearch", voterservice.getNatConstituency(candidate));
-			//return "search_national";
 			
 		}
 		else if(searchfor.equals("Select Search By"))
@@ -963,19 +823,16 @@ public String Admin(HttpSession session,Map<String, Object> map){
 		{
 			
 			map.put("ProSearch", voterservice.getProCandName(candidate));
-			//return "search_national";
 		}
 		else if(searchfor.equals("Party Name"))
 		{
 			map.put("ProSearch", voterservice.getProParty(candidate));
-			//return "search_national";
 			
 		}
 		
 		else if(searchfor.equals("Constituency"))
 		{
 			map.put("ProSearch", voterservice.getProConstituency(candidate));
-			//return "search_national";
 			
 		}
 		else if(searchfor.equals("Select Search By"))
@@ -1063,9 +920,6 @@ public String Admin(HttpSession session,Map<String, Object> map){
 	@RequestMapping(value="/delete_provisional.do", method=RequestMethod.POST)
 	public String DeleteProCand(@ModelAttribute Candi candidate, BindingResult result, @RequestParam String action,Map<String, Object> map){
 		
-		//long[] list1=candidate.getCcnic1();
-		//System.out.println(list);
-		//System.out.println(candidate.getCcnic());
 		long[] li=candidate.getCcnic();
 		for(int i=0; i<li.length; i++)
 		{
@@ -1127,18 +981,7 @@ public String Admin(HttpSession session,Map<String, Object> map){
 			System.out.println(pollList.get(j));
 		}
 		
-		//List<pollingstation> pid=voterservice.getPollingStations();
-		/* int [] pollid=new int[pollList.size()];
-		for(int i=0; i<pi.size(); i++)
-		{
-			pollid[i]=pi.get(i).getPid();
-			System.out.println("Polling id: "+pollid[i]);
-			
-		}*/
-		
-		
 		model.addAttribute("polling",pollList);
-	//	model.addAttribute("pollid",pollid);
 		return "add_voter";
 	}
 	
@@ -1167,34 +1010,15 @@ public String Admin(HttpSession session,Map<String, Object> map){
 			System.out.println("address: "+ voter.getAddress());
 			System.out.println("voteno: "+ voter.getVoteno());
 			System.out.println("cid: "+ voter.getCid());
-			//System.out.println("polling: "+ voter.getPolling());
-		
 			map.put("voterdata",voter);
 			
-			
-			/*if(cand.getCcnic()!=0 && cand.getCandidatename()!="" && cand.getPartyname()!="" && cand.getSymbol()!="" && cand.getCid()!="" && cand.getPic()!=null && pic.getInputStream()!=null )
-			{
-				voterservice.AddNationalCand(cand);
-				voterservice.AddNatToVotes(cand.getCcnic());
-				map.put("added", "National Candidate Added!");
-			}
-			
-			else
-			{
-				map.put("added", "Please Fill out all the empty fields.");
-			}*/
-			
-		} catch (IOException e) {
+		} 
+		catch (IOException e)
+		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		//System.out.println("Image: "+cand.getPic());
 		
-		
-	//	System.out.println("Image: "+cand.getCandidatename());
-		//voterservice.AddNationalCand(cand);
-		
-	//	voterservice.AddNatToVotes(cand.getCcnic());
 		map.put("vt",voter.getGender());
 		candidates cando=new candidates();
 		map.put("candidate", cando);
@@ -1380,13 +1204,6 @@ public String Admin(HttpSession session,Map<String, Object> map){
                 err = sgfplib.GetImageQuality(deviceInfo.imageWidth, deviceInfo.imageHeight, imageBuffer1, quality);
                 System.out.println("GetImageQuality returned : [" + err + "]");
                 System.out.println("Image Quality is : [" + quality[0] + "]");
-               // fout = new FileOutputStream(finger + "1.raw");
-                //fp = new PrintStream(fout);
-                //fp.write(imageBuffer1,0, imageBuffer1.length);
-                //fp.close();
-                //fout.close();
-                //fp = null;
-                //fout = null;
             }
             else
             {
@@ -1416,24 +1233,7 @@ public String Admin(HttpSession session,Map<String, Object> map){
         err = sgfplib.GetTemplateSize(SG400minutiaeBuffer1, size);
         System.out.println("GetTemplateSize returned : [" + err + "]");
         System.out.println("SG400 Template Size is : [" + size[0] + "]");
-       /* try
-        {
-            if (err == SGFDxErrorCode.SGFDX_ERROR_NONE)
-            {
-                fout = new FileOutputStream(finger +"1.sg400");
-                fp = new PrintStream(fout);
-                fp.write(SG400minutiaeBuffer1,0, size[0]);
-                fp.close();
-                fout.close();
-                fp = null;
-                fout = null;
-            }
-        }
-        catch (IOException e)
-        {
-            System.out.println("Exception writing minutiae file : " + e);
-        }*/
-
+    
        
 //////////////////////////////////////////////////////////////////////////////
 // Finger 2
@@ -1453,13 +1253,6 @@ public String Admin(HttpSession session,Map<String, Object> map){
                 err = sgfplib.GetImageQuality(deviceInfo.imageWidth, deviceInfo.imageHeight, imageBuffer2, quality);
                 System.out.println("GetImageQuality returned : [" + err + "]");
                 System.out.println("Image Quality is : [" + quality[0] + "]");
-                //fout = new FileOutputStream(finger + "2.raw");
-                //fp = new PrintStream(fout);
-                //fp.write(imageBuffer2,0, imageBuffer2.length);
-                //fp.close();
-                //fout.close();
-                //fp = null;
-                //fout = null;
             }
             else
             {
@@ -1490,24 +1283,7 @@ public String Admin(HttpSession session,Map<String, Object> map){
         err = sgfplib.GetTemplateSize(SG400minutiaeBuffer2, size);
         System.out.println("GetTemplateSize returned : [" + err + "]");
         System.out.println("SG400 Template Size is : [" + size[0] + "]");
-       /* try
-        {
-            if (err == SGFDxErrorCode.SGFDX_ERROR_NONE)
-            {
-                fout = new FileOutputStream(finger +"2.sg400");
-                fp = new PrintStream(fout);
-                fp.write(SG400minutiaeBuffer2,0, size[0]);
-                fp.close();
-                fout.close();
-                fp = null;
-                fout = null;
-            }
-        }
-        catch (IOException e)
-        {
-            System.out.println("Exception writing minutiae file : " + e);
-        }*/
-
+    
         boolean[] matched = new boolean[1];
         int[] score = new int[1];
         ///////////////////////////////////
@@ -1745,23 +1521,7 @@ public String Admin(HttpSession session,Map<String, Object> map){
 	        err = sgfplib.GetTemplateSize(SG400minutiaeBuffer1, size);
 	        System.out.println("GetTemplateSize returned : [" + err + "]");
 	        System.out.println("SG400 Template Size is : [" + size[0] + "]");
-	       /* try
-	        {
-	            if (err == SGFDxErrorCode.SGFDX_ERROR_NONE)
-	            {
-	                fout = new FileOutputStream(finger +"1.sg400");
-	                fp = new PrintStream(fout);
-	                fp.write(SG400minutiaeBuffer1,0, size[0]);
-	                fp.close();
-	                fout.close();
-	                fp = null;
-	                fout = null;
-	            }
-	        }
-	        catch (IOException e)
-	        {
-	            System.out.println("Exception writing minutiae file : " + e);
-	        }*/
+	       
 	        boolean[] matched = new boolean[1];
 	        boolean[] matched1 = new boolean[1];
 	        matched[0] = false;
