@@ -48,34 +48,8 @@ import SecuGen.FDxSDKPro.jni.SGImpressionType;
 import SecuGen.FDxSDKPro.jni.SGPPPortAddr;
 
 
-
-/*import SecuGen.FDxSDKPro.jni.JSGFPLib;
-import SecuGen.FDxSDKPro.jni.SGDeviceInfoParam;
-import SecuGen.FDxSDKPro.jni.SGFDxDeviceName;
-import SecuGen.FDxSDKPro.jni.SGFDxErrorCode;
-import SecuGen.FDxSDKPro.jni.SGFDxSecurityLevel;
-import SecuGen.FDxSDKPro.jni.SGFDxTemplateFormat;
-import SecuGen.FDxSDKPro.jni.SGFingerInfo;
-import SecuGen.FDxSDKPro.jni.SGFingerPosition;
-import SecuGen.FDxSDKPro.jni.SGImpressionType;
-import SecuGen.FDxSDKPro.jni.SGPPPortAddr;
-*/
-
-
-
-
-
-
-
-
-
-
-
 @Controller
-//@SessionAttributes({"votercnic","natCnic","proCnic"})
 @SessionAttributes({"votercnic","natCnic","proCnic","adminusername","homePage","voterdata"})
-//@SessionAttributes("natCnic")
-//@SessionAttributes("proCnic")
 public class voterController {
 	
 	@Autowired
