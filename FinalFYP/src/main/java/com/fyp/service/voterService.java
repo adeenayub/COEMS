@@ -27,10 +27,6 @@ public interface voterService {
 	public void updateFlag(voter vot);
 	
 	public String check(admin admin1);
-	//public String checkOne(adminReq admin1);
-	//public byte[] encryptPassword(String password);
-	//public String decryptPassword(byte[] text);
-	
 	public List getConstituencies();
 	
 	public void AddNationalCand(candidates cand);
