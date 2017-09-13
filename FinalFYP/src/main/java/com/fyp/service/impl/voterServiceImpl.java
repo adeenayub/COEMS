@@ -225,133 +225,6 @@ public class voterServiceImpl implements voterService {
 	}
 	
 	
-	/*@Transactional
-	public String checkOne(adminReq admin1)
-	{
-		String ret="";
-		admin admin2=new admin();
-		
-		/*try {
-			byte[] password=encryptPassword("saba@123");
-			System.out.println("password: "+password);
-			admin2.setPassword(password);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
-		
-		//admin2.setUsername(admin1.getUsername());
-		//admin2.setPassword(password);
-		/*System.out.println("username: "+admin2.getUsername());
-		
-		System.out.println("admin2.password: "+admin2.getPassword());
-		System.out.println("admin1.password: "+admin1.getPassword());
-		System.out.println("[B@282ba1e.getBytes() :"+new String(admin2.getPassword()));
-		System.out.println("decrypted: "+decryptPassword(admin2.getPassword()));
-		String a=new String(admin2.getPassword());
-		byte[] out = new byte[a.getBytes().length+1];
-		System.out.println("decrypted: "+decryptPassword(out));*/
-		
-		
-	
-		/*admin2=voterdao.checkOne(admin1.getUsername());
-		if(admin2!=null)
-		{
-			byte[] pass=admin2.getPassword();
-			System.out.println("username " +admin2.getUsername());
-			System.out.println("byte retrieve: " +pass);
-			//String s=new String(pass);
-			String de=decryptPassword(pass);
-			if(de.equals(admin1.getPassword()))
-			{
-				String user =admin1.getUsername();
-				String one=user.split("\\.")[1];
-				System.out.println(one);
-				if(one.equals("returning"))
-				
-					//return "returningHome";
-					ret= "returningHome";
-				
-				else if(one.equals("electcommission"))
-					//return "electioncommissionHome";
-					ret= "electioncommissionHome";
-				else
-					//return "presidingHome";
-					ret= "presidingHome";
-			}
-			
-		}
-		else
-		
-		ret= "login";
-		
-		return ret;
-	}*/
-	
-	/*@Transactional
-	public byte[] encryptPassword(String text)
-	{
-		 byte[] encrypted = null;
-		try {
-			  
-	         String key = "app12345app54321"; // 128 bit key
-
-	         // Create key and cipher
-	         Key aesKey = new SecretKeySpec(key.getBytes(), "AES");
-	         Cipher cipher = Cipher.getInstance("AES");
-			 
-			 System.out.println("key: "+aesKey);
-
-	         // encrypt the text
-	         cipher.init(Cipher.ENCRYPT_MODE, aesKey);
-	         encrypted = cipher.doFinal(text.getBytes());
-	         System.out.println(encrypted);
-
-	 
-
-	   
-
-	      }catch(Exception e) {
-
-	         e.printStackTrace();
-	      }
-
-        
-        return encrypted;
-	}*/
-	
-	/*@Transactional
-	public String decryptPassword(byte[] text)
-	{
-		String decrypted = "";
-		try {
-			  
-	         String key = "app12345app54321"; // 128 bit key
-
-	         // Create key and cipher
-	         Key aesKey = new SecretKeySpec(key.getBytes(), "AES");
-	         Cipher cipher = Cipher.getInstance("AES");
-			 
-			 System.out.println("key: "+aesKey);
-
-	         
-
-	         // decrypt the text
-
-	         cipher.init(Cipher.DECRYPT_MODE, aesKey);
-	         decrypted = new String(cipher.doFinal(text));
-			 
-			
-	         System.err.println(decrypted);
-
-	      }catch(Exception e) {
-
-	         e.printStackTrace();
-	      }
-
-        
-        return decrypted;
-	}*/
 	
 	@Transactional
 	public void AddNationalCand(candidates cand)
@@ -422,14 +295,8 @@ public class voterServiceImpl implements voterService {
 			 SecretKey secretKey=generateSecretKey();
 			 storeSecretKey(secretKey,ccnic);
 			 String sKey=base64String(secretKey);
-			 //Key aesKey = new SecretKeySpec(sKey.getBytes(), "AES");
-
 			 Cipher cipher = Cipher.getInstance("AES");
-			 	
-			// encrypt the text
-			// cipher.init(Cipher.ENCRYPT_MODE, aesKey);
-			 cipher.init(Cipher.ENCRYPT_MODE, secretKey);
-			 
+			  cipher.init(Cipher.ENCRYPT_MODE, secretKey);	 
 			 encrypted = cipher.doFinal(text.getBytes());
 
 		 }catch(Exception e) {
@@ -448,12 +315,7 @@ public class voterServiceImpl implements voterService {
 			 SecretKey secretKey=generateSecretKey();
 			 VoterstoreSecretKey(secretKey,ccnic);
 			 String sKey=base64String(secretKey);
-			 //Key aesKey = new SecretKeySpec(sKey.getBytes(), "AES");
-
 			 Cipher cipher = Cipher.getInstance("AES");
-			 	
-			// encrypt the text
-			// cipher.init(Cipher.ENCRYPT_MODE, aesKey);
 			 cipher.init(Cipher.ENCRYPT_MODE, secretKey);
 			 
 			 encrypted = cipher.doFinal(text.getBytes());
@@ -475,12 +337,8 @@ public class voterServiceImpl implements voterService {
 		 try {
 			 SecretKey secretKey=retrieveSecretKey(ccnic);
 			 String sKey=base64String(secretKey);
-			// Key aesKey = new SecretKeySpec(sKey.getBytes(), "AES");
-			 Cipher cipher = Cipher.getInstance("AES");
-			 
-			// decrypt the text
-			// cipher.init(Cipher.DECRYPT_MODE, aesKey);
-			 cipher.init(Cipher.DECRYPT_MODE, secretKey);
+	                 Cipher cipher = Cipher.getInstance("AES");
+			  cipher.init(Cipher.DECRYPT_MODE, secretKey);
 			decrypted = new String(cipher.doFinal(ciphertext));
 		 }catch(Exception e) {
 			 e.printStackTrace();
@@ -497,11 +355,7 @@ public class voterServiceImpl implements voterService {
 		 try {
 			 SecretKey secretKey=VoterretrieveSecretKey(ccnic);
 			 String sKey=base64String(secretKey);
-			// Key aesKey = new SecretKeySpec(sKey.getBytes(), "AES");
 			 Cipher cipher = Cipher.getInstance("AES");
-			 
-			// decrypt the text
-			// cipher.init(Cipher.DECRYPT_MODE, aesKey);
 			 cipher.init(Cipher.DECRYPT_MODE, secretKey);
 			decrypted = new String(cipher.doFinal(ciphertext));
 		 }catch(Exception e) {
@@ -583,7 +437,7 @@ public class voterServiceImpl implements voterService {
 	@Transactional
 	public void storeSecretKey(SecretKey secretKey, long ccnic) throws Exception 
 	{
-		 final String keyStoreFile = "C:/Users/Saba Saeed/workspace/FinalFYP/javacirecep.keystore";
+		 final String keyStoreFile = "C:/Users/Adeen/workspace/FinalFYP/javacirecep.keystore";
 	     KeyStore keyStore = createKeyStore(keyStoreFile, "javaci123");
 		 // store the secret key
 	     String stringCcnic= Long.toString(ccnic);
@@ -597,7 +451,7 @@ public class voterServiceImpl implements voterService {
 	@Transactional
 	public void VoterstoreSecretKey(SecretKey secretKey, long ccnic) throws Exception 
 	{
-		 final String keyStoreFile = "C:/Users/Saba Saeed/workspace/FinalFYP/voter.keystore";
+		 final String keyStoreFile = "C:/Users/Adeen/workspace/FinalFYP/voter.keystore";
 	     KeyStore keyStore = createKeyStore(keyStoreFile, "javaci123");
 		 // store the secret key
 	     String stringCcnic= Long.toString(ccnic);
@@ -614,7 +468,7 @@ public class voterServiceImpl implements voterService {
 	{ 
 		String stringCcnic= Long.toString(ccnic);
 		PasswordProtection keyPassword = new PasswordProtection(stringCcnic.toCharArray());
-		final String keyStoreFile = "C:/Users/Saba Saeed/workspace/FinalFYP/javacirecep.keystore";
+		final String keyStoreFile = "C:/Users/Adeen/workspace/FinalFYP/javacirecep.keystore";
 		KeyStore keyStore = createKeyStore(keyStoreFile, "javaci123");
         KeyStore.Entry entry = keyStore.getEntry(Long.toString(ccnic), keyPassword);
         SecretKey keyFound = ((KeyStore.SecretKeyEntry) entry).getSecretKey();
@@ -626,7 +480,7 @@ public class voterServiceImpl implements voterService {
 	{ 
 		String stringCcnic= Long.toString(ccnic);
 		PasswordProtection keyPassword = new PasswordProtection(stringCcnic.toCharArray());
-		final String keyStoreFile = "C:/Users/Saba Saeed/workspace/FinalFYP/voter.keystore";
+		final String keyStoreFile = "C:/Users/Adeen/workspace/FinalFYP/voter.keystore";
 		KeyStore keyStore = createKeyStore(keyStoreFile, "javaci123");
         KeyStore.Entry entry = keyStore.getEntry(Long.toString(ccnic), keyPassword);
         SecretKey keyFound = ((KeyStore.SecretKeyEntry) entry).getSecretKey();
