@@ -1,8 +1,32 @@
 As metioned before this project is basically a website that enables
 users to cast vote from any polling station in Pakistan securely 
-and easily. The website is designed using Java based Spring Framework.
-For thumbprint recognition, the device used is Secugen Hamster Pro 20
-which is connected to the laptop via USB cable. The following explains 
-how the main functionality works.
-The user goes to 
+and easily. The website is designed using Java based Spring Framework 
+the follows the MVC pattern.For thumbprint recognition, the device used 
+is Secugen Hamster Pro 20 which is connected to the laptop via USB cable.
+The following explains how the main functionality works.
+Accessing the website on cloud or locally opens the home page. The   
+keyword 'index' gets selected in the URL. In return, the request mapping for 
+'index' is looked for in the controller. In the controller, the related 
+function public String First() gets called that returns the string 'home'.
+Ultimately the home page gets returned. 
+The voter chooses the option of 'cast vote' from the home page. The request 
+goes from view to the controller where the function corresponding to the request
+mapping 'castvote' gets called. The call returns the 'verifyvoter.jsp' page. 
+The voter is prompted to enter his/her CNIC. Once the CNIC is entered, the 
+entered field passes from the view to the controller where the function of 
+service class gets called. This further calls the function of DAO class that 
+checks against the database if the entered CNIC is correct. If a match is found,
+the flag is decrypted. If the value of the flag is 0, then the voter is allowed 
+to move to the 2nd step of verification. If it is 1, then the voter is not allowed
+to go any further. 
+The next step is Biometric verification for which a thumb print scanner is used. 
+The voter is asked to give his/her thumb impression which gets matched with the ones
+stored in the database. The algorithm used for thumb impression is the one employed by 
+Secugen. Once the thumb print gets verified, the voter is allowed to move to the next page. 
+Now the voter is asked to vote for both the national and provisional candiates. Whatever
+option he/she chooses to vote first, the request goes from view to the controller where
+the funtion of service class gets called. The service class calls the fucntions of the DAO
+class that retrieves the respective candidates from the database. The voter now casts a vote 
+for both the candidates. The flag in the voter's table is updated. 
+
 The user's vote is en
