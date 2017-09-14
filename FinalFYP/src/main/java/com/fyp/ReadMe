@@ -16,9 +16,9 @@ The voter is prompted to enter his/her CNIC. Once the CNIC is entered, the
 entered field passes from the view to the controller where the function of 
 service class gets called. This further calls the function of DAO class that 
 checks against the database if the entered CNIC is correct.Along with other
-information stored, each of the fields in the voter's table has a flag value 
-that is set to 0 and then encrypted whenever a new record is added. If the 
-entered CNIC is found in the database,the flag is decrypted. If the value of 
+information stored, whenever a new record is added, each of the fields in the
+voter's table has a flag value that is, by default, set to 0 and then encrypted.
+If the entered CNIC is found in the database,the flag is decrypted. If the value of 
 the flag is 0, then the voter is allowed to move to the 2nd step of verification. 
 If it is 1, then the voter is not allowed to go any further. 
 The next step is Biometric verification for which a thumb print scanner is used. 
