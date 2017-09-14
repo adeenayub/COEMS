@@ -20,13 +20,14 @@ the flag is decrypted. If the value of the flag is 0, then the voter is allowed
 to move to the 2nd step of verification. If it is 1, then the voter is not allowed
 to go any further. 
 The next step is Biometric verification for which a thumb print scanner is used. 
-The voter is asked to give his/her thumb impression which gets matched with the ones
-stored in the database. The algorithm used for thumb impression is the one employed by 
-Secugen. Once the thumb print gets verified, the voter is allowed to move to the next page. 
-Now the voter is asked to vote for both the national and provisional candiates. Whatever
-option he/she chooses to vote first, the request goes from view to the controller where
-the funtion of service class gets called. The service class calls the fucntions of the DAO
-class that retrieves the respective candidates from the database. The voter now casts a vote 
-for both the candidates. The flag in the voter's table is updated. 
+The voter is asked to give his/her thumb impression which gets matched with the 
+ones stored in the database. The algorithm used for thumb impression is the one 
+employed by Secugen. Once the thumb print gets verified, the voter is allowed to
+move to the next page.Now the voter is asked to vote for both the national and 
+provisional candiates. Whatever option he/she chooses to vote first, the request 
+goes from view to the controller where the funtion of service class gets called. 
+The service class calls the fucntions of the DAO class that retrieves the respective
+candidates from the database. The voter now casts a vote for both the candidates. 
+The flag in the voter's table is updated. 
 
 The user's vote is en
