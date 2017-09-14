@@ -1,1 +1,1 @@
-this is the dao folder
+DAO classes call the functions of the model classes.
