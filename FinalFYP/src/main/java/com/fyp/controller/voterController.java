@@ -1053,6 +1053,10 @@ public String logout(HttpSession session,SessionStatus status,ModelMap model)
 	
 	}
 	
+	//Register the finger impression
+	//The algorithm is provided by Secugen Hamster Pro 20
+	//The user is prompted to give the impression twice for 
+	//accurate results
 	@RequestMapping(value="/register.do", method=RequestMethod.POST)
 	public String RegisterFinger( HttpSession session,@ModelAttribute voter voter,BindingResult result,@RequestParam String action,Map<String, Object> map){
 	
@@ -1351,6 +1355,7 @@ public String logout(HttpSession session,SessionStatus status,ModelMap model)
 	return returnString;
 	}
 	
+	//verify the given impression from the one stored into the database
 	@RequestMapping(value="/verify_voter.do", method=RequestMethod.POST)
 	public String VerifyFinger( HttpSession session,@ModelAttribute voter voter,BindingResult result,@RequestParam String action,Map<String, Object> map){
 	
