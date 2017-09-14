@@ -42,7 +42,6 @@ public class voterServiceImpl implements voterService {
 	@Autowired
 	private voterDao voterdao;
 	private voter vt;
-//	String key = "Bar12345Bar12345"; // 128 bit key
 	
 
 
@@ -53,11 +52,14 @@ public class voterServiceImpl implements voterService {
 		String decrypt=VoterDecrptionAES(flagencypted,cnic);
 		int flag = Integer.parseInt(decrypt);
 		
-		
-		if(vt==null)
+		//Checking if the voter's record is stored
+		//in the database
+		if(vt==null)    
 		{
 			return "index?cnic=error";
 		}
+		//Checking if the voter's vote has been 
+		//casted already
 		else if(vt!=null && flag==1)
 		{
 			return "index?flag=error";
@@ -96,6 +98,11 @@ public class voterServiceImpl implements voterService {
 	}
 	
 	@Transactional
+	//This function updates the number of votes against each
+	//candidate for the National Assembly.Every time a vote is
+	//casted for a particular candidate, it's respective vote 
+	//count is decrypted and then incremented. The vote count 
+	//is decrypted again before saving it into the database.
 	public void updateVotes(long ccnic)
 	{
 		Votes vot=voterdao.getCand(ccnic);
@@ -111,6 +118,11 @@ public class voterServiceImpl implements voterService {
 	}
 	
 	@Transactional
+	//This function updates the number of votes against each
+	//candidate for the Provincial Assembly.Every time a vote is
+	//casted for a particular candidate, it's respective vote 
+	//count is decrypted and then incremented. The vote count 
+	//is decrypted again before saving it into the database.
 	public void updateProVotes(long ccnic)
 	{
 		provisionalvotes vot=voterdao.getProCand(ccnic);
@@ -134,6 +146,7 @@ public class voterServiceImpl implements voterService {
 	}
 	
 	@Transactional
+	//Voter's flag is encrypted and then updated
 	public void updateFlag(voter vot)
 	{
 		byte[] encrypt=VoterEncryptionAES("1",vot.getCnic());
@@ -142,6 +155,9 @@ public class voterServiceImpl implements voterService {
 	}
 	
 	@Transactional
+	//Every time a new voter is added to the database, 
+	//the flag is set to zero and then ecncrypted 
+	//and saved to the database
 	public byte[] addFlag(long cnic)
 	{
 		byte[] encrypt=VoterEncryptionAES("0",cnic);
@@ -159,10 +175,7 @@ public class voterServiceImpl implements voterService {
 	        byte [] encryptedByteValue = cipher.doFinal(value.getBytes("utf-8"));
 	        String encryptedValue64 = new BASE64Encoder().encode(encryptedByteValue);
 	        System.out.println("Encrypt");
-	        //System.out.println( encryptedValue64);
-	        //decrypt(encryptedValue64);  
-	        
-	       return encryptedValue64;
+	        return encryptedValue64;
 	        
 	       
 	    }
@@ -224,134 +237,6 @@ public class voterServiceImpl implements voterService {
 		return "login";
 	}
 	
-	
-	/*@Transactional
-	public String checkOne(adminReq admin1)
-	{
-		String ret="";
-		admin admin2=new admin();
-		
-		/*try {
-			byte[] password=encryptPassword("saba@123");
-			System.out.println("password: "+password);
-			admin2.setPassword(password);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
-		
-		//admin2.setUsername(admin1.getUsername());
-		//admin2.setPassword(password);
-		/*System.out.println("username: "+admin2.getUsername());
-		
-		System.out.println("admin2.password: "+admin2.getPassword());
-		System.out.println("admin1.password: "+admin1.getPassword());
-		System.out.println("[B@282ba1e.getBytes() :"+new String(admin2.getPassword()));
-		System.out.println("decrypted: "+decryptPassword(admin2.getPassword()));
-		String a=new String(admin2.getPassword());
-		byte[] out = new byte[a.getBytes().length+1];
-		System.out.println("decrypted: "+decryptPassword(out));*/
-		
-		
-	
-		/*admin2=voterdao.checkOne(admin1.getUsername());
-		if(admin2!=null)
-		{
-			byte[] pass=admin2.getPassword();
-			System.out.println("username " +admin2.getUsername());
-			System.out.println("byte retrieve: " +pass);
-			//String s=new String(pass);
-			String de=decryptPassword(pass);
-			if(de.equals(admin1.getPassword()))
-			{
-				String user =admin1.getUsername();
-				String one=user.split("\\.")[1];
-				System.out.println(one);
-				if(one.equals("returning"))
-				
-					//return "returningHome";
-					ret= "returningHome";
-				
-				else if(one.equals("electcommission"))
-					//return "electioncommissionHome";
-					ret= "electioncommissionHome";
-				else
-					//return "presidingHome";
-					ret= "presidingHome";
-			}
-			
-		}
-		else
-		
-		ret= "login";
-		
-		return ret;
-	}*/
-	
-	/*@Transactional
-	public byte[] encryptPassword(String text)
-	{
-		 byte[] encrypted = null;
-		try {
-			  
-	         String key = "app12345app54321"; // 128 bit key
-
-	         // Create key and cipher
-	         Key aesKey = new SecretKeySpec(key.getBytes(), "AES");
-	         Cipher cipher = Cipher.getInstance("AES");
-			 
-			 System.out.println("key: "+aesKey);
-
-	         // encrypt the text
-	         cipher.init(Cipher.ENCRYPT_MODE, aesKey);
-	         encrypted = cipher.doFinal(text.getBytes());
-	         System.out.println(encrypted);
-
-	 
-
-	   
-
-	      }catch(Exception e) {
-
-	         e.printStackTrace();
-	      }
-
-        
-        return encrypted;
-	}*/
-	
-	/*@Transactional
-	public String decryptPassword(byte[] text)
-	{
-		String decrypted = "";
-		try {
-			  
-	         String key = "app12345app54321"; // 128 bit key
-
-	         // Create key and cipher
-	         Key aesKey = new SecretKeySpec(key.getBytes(), "AES");
-	         Cipher cipher = Cipher.getInstance("AES");
-			 
-			 System.out.println("key: "+aesKey);
-
-	         
-
-	         // decrypt the text
-
-	         cipher.init(Cipher.DECRYPT_MODE, aesKey);
-	         decrypted = new String(cipher.doFinal(text));
-			 
-			
-	         System.err.println(decrypted);
-
-	      }catch(Exception e) {
-
-	         e.printStackTrace();
-	      }
-
-        
-        return decrypted;
-	}*/
 	
 	@Transactional
 	public void AddNationalCand(candidates cand)
@@ -422,14 +307,9 @@ public class voterServiceImpl implements voterService {
 			 SecretKey secretKey=generateSecretKey();
 			 storeSecretKey(secretKey,ccnic);
 			 String sKey=base64String(secretKey);
-			 //Key aesKey = new SecretKeySpec(sKey.getBytes(), "AES");
-
 			 Cipher cipher = Cipher.getInstance("AES");
-			 	
-			// encrypt the text
-			// cipher.init(Cipher.ENCRYPT_MODE, aesKey);
+			 // encrypt the text
 			 cipher.init(Cipher.ENCRYPT_MODE, secretKey);
-			 
 			 encrypted = cipher.doFinal(text.getBytes());
 
 		 }catch(Exception e) {
@@ -448,14 +328,9 @@ public class voterServiceImpl implements voterService {
 			 SecretKey secretKey=generateSecretKey();
 			 VoterstoreSecretKey(secretKey,ccnic);
 			 String sKey=base64String(secretKey);
-			 //Key aesKey = new SecretKeySpec(sKey.getBytes(), "AES");
-
-			 Cipher cipher = Cipher.getInstance("AES");
-			 	
-			// encrypt the text
-			// cipher.init(Cipher.ENCRYPT_MODE, aesKey);
-			 cipher.init(Cipher.ENCRYPT_MODE, secretKey);
-			 
+		         Cipher cipher = Cipher.getInstance("AES");
+			 // encrypt the text
+		        cipher.init(Cipher.ENCRYPT_MODE, secretKey);
 			 encrypted = cipher.doFinal(text.getBytes());
 
 		 }catch(Exception e) {
@@ -475,12 +350,9 @@ public class voterServiceImpl implements voterService {
 		 try {
 			 SecretKey secretKey=retrieveSecretKey(ccnic);
 			 String sKey=base64String(secretKey);
-			// Key aesKey = new SecretKeySpec(sKey.getBytes(), "AES");
 			 Cipher cipher = Cipher.getInstance("AES");
-			 
-			// decrypt the text
-			// cipher.init(Cipher.DECRYPT_MODE, aesKey);
-			 cipher.init(Cipher.DECRYPT_MODE, secretKey);
+			 // decrypt the text
+			cipher.init(Cipher.DECRYPT_MODE, secretKey);
 			decrypted = new String(cipher.doFinal(ciphertext));
 		 }catch(Exception e) {
 			 e.printStackTrace();
