@@ -1,4 +1,10 @@
 # Cloud Based Online Election Management System(COEMS)
+Electoral processes have been riddled with controversy, more often than not. The 
+United States presidential election, 2000(remember the Florida reccount?) is 
+just one case in point. Keeping up with the seemingly global tradition, the Pakistan 
+general election, 2013, was subject to rigging accusations and recount demands.
+It's more than evident now: we need a revised electoral system, one that is equitable 
+and secure.
 Due to lack of proper administration, several polling stations in Pakistan have
 witnessed meagre security resulting in a string of rigging attempts, including people
 trying to cast multiple votes. Moreover, the lack of opportunity to cast votes from another
