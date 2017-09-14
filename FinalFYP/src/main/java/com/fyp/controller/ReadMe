@@ -2,3 +2,6 @@ This project follows the MVC pattern.
 The controller links the view with the service class. 
 It also contains the function of registering the thumb 
 impression and verifying it.
+The display of the images stored into the database are
+handled by the Image Contoller while the rest of the 
+member functions are handled by the voter Controller. 
