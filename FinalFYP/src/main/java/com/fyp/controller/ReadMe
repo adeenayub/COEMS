@@ -1,1 +1,4 @@
 This project follows the MVC pattern. 
+The controller links the view with the service class. 
+It also contains the function of registering the thumb 
+impression and verifying it.
