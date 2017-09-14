@@ -38,5 +38,5 @@ for the candidate voted for gets incremented, encrypted and stored into the data
 All of the sensitive fields of the database like flag, total votes count, password etc 
 are encrypted using AES encryption. The secret key for the encryption of the flag is generated 
 randomly and stored into a passoword protected file.
-At the admin's end, he can 
-The user's vote is en
+At the admin's end, he/she can login and then add,delete and update the candidates.
+
