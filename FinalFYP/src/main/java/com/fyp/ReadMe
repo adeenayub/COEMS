@@ -1,4 +1,4 @@
-As metioned before this project is basically a website that enables
+As metioned before, this project is basically a website that enables
 users to cast vote from any polling station in Pakistan securely 
 and easily. The website is designed using Java based Spring Framework 
 the follows the MVC pattern.For thumbprint recognition, the device used 
@@ -15,13 +15,13 @@ mapping 'castvote' gets called. The call returns the 'verifyvoter.jsp' page.
 The voter is prompted to enter his/her CNIC. Once the CNIC is entered, the 
 entered field passes from the view to the controller where the function of 
 service class gets called. This further calls the function of DAO class that 
-checks against the database if the entered CNIC is correct.Along with other
+checks against the database if the entered CNIC is correct. Along with other
 information stored, whenever a new record is added, each of the fields in the
-voter's table has a flag value that is, by default, set to 0 and then encrypted.
+voter's table has a flag value that is by default set to 0 and then encrypted.
 If the entered CNIC is found in the database,the flag is decrypted. If the value of 
 the flag is 0, then the voter is allowed to move to the 2nd step of verification. 
 If it is 1, then the voter is not allowed to go any further. 
-The next step is Biometric verification for which a thumb print scanner is used. 
+The next step is Biometric verification, for which a thumb print scanner is used. 
 The voter is asked to give his/her thumb impression which gets matched with the 
 ones stored in the database. The algorithm used for thumb impression is the one 
 employed by Secugen. Once the thumb print gets verified, the voter is allowed to
@@ -31,11 +31,12 @@ presented with the cadidates of his/her constitutency. The request goes from
 view to the controller where the funtion of service class gets called. The service
 class calls the fucntions of the DAO class that retrieves the respective
 candidates from the database. The voter now casts a vote for both the national and 
-the provincial candidates. The flag in the voter's table is updated to 1,
-encrypted and stored into the database. At the same time, the tables for the national
-and the provincial candidates get updated as well. The total votes for the candidate voted 
-for gets incremented, encrypted and stored into the database. 
+the provincial candidates one by one. The flag in the voter's table is decrypted, 
+updated to 1, encrypted and stored into the database. At the same time, the tables 
+for the national and the provincial candidates get updated as well. The total votes
+for the candidate voted for gets incremented, encrypted and stored into the database. 
 All of the sensitive fields of the database like flag, total votes count, password etc 
 are encrypted using AES encryption. The secret key for the encryption of the flag is generated 
 randomly and stored into a passoword protected file.
+At the admin's end, he can 
 The user's vote is en
