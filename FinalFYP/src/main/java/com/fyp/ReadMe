@@ -32,4 +32,6 @@ The service class calls the fucntions of the DAO class that retrieves the respec
 candidates from the database. The voter now casts a vote for both the candidates. 
 The flag in the voter's table is updated. 
 
+All of the sensitive fields of the database like flag, total votes count, password etc 
+are encrypted using AES encryption. 
 The user's vote is en
