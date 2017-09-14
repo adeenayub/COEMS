@@ -1,1 +1,5 @@
-This is the 'Implementation of service classes' folder
+The service class contains all of the methods related with Encryption. 
+In order to provide maximum security, AES Encryption is used. 
+This class contains the method for Encryption, Decryption,
+Generating a Secret Key, Storing it into a file, Retrieving it,
+Creating a KeyStore etc. 
