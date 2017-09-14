@@ -26,13 +26,16 @@ The voter is asked to give his/her thumb impression which gets matched with the
 ones stored in the database. The algorithm used for thumb impression is the one 
 employed by Secugen. Once the thumb print gets verified, the voter is allowed to
 move to the next page.Now the voter is asked to vote for both the national and 
-provisional candiates. Whatever option he/she chooses to vote first, the request 
-goes from view to the controller where the funtion of service class gets called. 
-The service class calls the fucntions of the DAO class that retrieves the respective
-candidates from the database. The voter now casts a vote for both the candidates. 
-The flag in the voter's table is updated to 1, encrypted and stored into the database. 
-
+provisional candiates. The voter selects one of the two options so that he/she is 
+presented with the cadidates of his/her constitutency. The request goes from 
+view to the controller where the funtion of service class gets called. The service
+class calls the fucntions of the DAO class that retrieves the respective
+candidates from the database. The voter now casts a vote for both the national and 
+the provincial candidates. The flag in the voter's table is updated to 1,
+encrypted and stored into the database. At the same time, the tables for the national
+and the provincial candidates get updated as well. The total votes for the candidate voted 
+for gets incremented, encrypted and stored into the database. 
 All of the sensitive fields of the database like flag, total votes count, password etc 
 are encrypted using AES encryption. The secret key for the encryption of the flag is generated 
-randomly. 
+randomly and stored into a passoword protected file.
 The user's vote is en
