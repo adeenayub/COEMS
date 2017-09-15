@@ -1,7 +1,7 @@
 As metioned before, this project is basically a website that enables
 users to cast vote from any polling station in Pakistan securely 
 and easily. The website is designed using Java based Spring Framework 
-the follows the MVC pattern.For thumbprint recognition, the device used 
+the follows the MVC pattern. For thumbprint recognition, the device used 
 is Secugen Hamster Pro 20 which is connected to the laptop via USB cable.
 The following explains how the main functionality works.
 Accessing the website on cloud or locally opens the home page. The   
