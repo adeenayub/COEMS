@@ -18,9 +18,9 @@ service class gets called. This further calls the function of DAO class that
 checks against the database if the entered CNIC is correct. Along with other
 information stored, whenever a new record is added, each of the fields in the
 voter's table has a flag value that is by default set to 0 and then encrypted.
-If the entered CNIC is found in the database,the flag is decrypted. If the value of 
-the flag is 0, then the voter is allowed to move to the 2nd step of verification. 
-If it is 1, then the voter is not allowed to go any further. 
+If the entered CNIC is found in the database,the flag is decrypted. If the value 
+of the flag is 0, then the voter is allowed to move to the 2nd step of 
+verification. If it is 1, then the voter is not allowed to go any further. 
 The next step is Biometric verification, for which a thumb print scanner is used. 
 The voter is asked to give his/her thumb impression which gets matched with the 
 ones stored in the database. The algorithm used for thumb impression is the one 
@@ -35,8 +35,8 @@ the provincial candidates one by one. The flag in the voter's table is decrypted
 updated to 1, encrypted and stored into the database. At the same time, the tables 
 for the national and the provincial candidates get updated as well. The total votes
 for the candidate voted for gets incremented, encrypted and stored into the database. 
-All of the sensitive fields of the database like flag, total votes count, password etc 
-are encrypted using AES encryption. The secret key for the encryption of the flag is generated 
-randomly and stored into a passoword protected file.
+All of the sensitive fields of the database like flag, total votes count, password 
+etc are encrypted using AES encryption. The secret key for the encryption of the 
+flag is generated randomly and stored into a passoword protected file.
 At the admin's end, he/she can login and then add,delete and update the candidates.
 
